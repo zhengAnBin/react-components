@@ -1,12 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import RadialMenu from "./components/radialMenu"
+
+const size = 50
+const iconSize = 20
+
+const radialData = {
+  startPoistion: 30,
+  angleExtent: 100,
+  radius: 100,
+  childrens: [
+    {
+      iconName: "complete",
+    },
+    {
+      iconName: "scenario",
+    },
+    {
+      iconName: "notice"
+    }
+  ]
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <div 
+      style={{ 
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        width: "100%", 
+        height: "100vh" 
+      }}
+    >
+      <RadialMenu data={radialData} size={size} iconSize={iconSize}></RadialMenu>
+    </div>
   </React.StrictMode>,
   document.getElementById('root')
 );

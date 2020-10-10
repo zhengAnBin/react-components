@@ -1,0 +1,16 @@
+.menu-parent{
+  position: relative;
+  text-align: center;
+  border: 1px solid #000;
+  border-radius: 50%;
+  line-height: 50px;
+}
+.menu-child{
+  position: absolute;
+  border: 1px solid #000;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .5s;
+}
