@@ -21,15 +21,18 @@ interface RadialProps {
   iconSize?: number
 }
 
-const radialMenu: React.FC<RadialProps> = (props) => {
+const RadialMenu: React.FC<RadialProps> = (props) => {
   
   const {
     data,
     size,
     iconSize
   } = props
-
+  const childClick = (item:string) => {
+    console.log(item)
+  }
   const RadialRecursion = ( data: Child ): ReactNode => {
+
     const { 
       childrens,
       startPoistion = 0,
@@ -43,41 +46,55 @@ const radialMenu: React.FC<RadialProps> = (props) => {
               angleExtent > 300 || angleExtent < -300 ? 300 : angleExtent;
 
       const frags = angle / ((childrens as Child[]).length - 1 || 1);
-      console.log((childrens as Child[]).length);
+
       return (childrens as Child[]).map((item, index) => {
 
         const angles = (Math.PI * (frags * index + startPoistion)) / 180
+        
         let style = {
           width: size + "px",
           height: size + "px",
-          left: -1 * ((size as number) / 2 + Math.cos(angles) * radius - (size as number) / 2) + 'px',
-          top: (size as number) / 2 - Math.sin(angles) * radius - (size as number) / 2 + 'px'
+          left: item.left 
+                ? item.left + 'px'
+                : -1 * ((size as number) / 2 + Math.cos(angles) * radius - (size as number) / 2) + 'px',
+          top: item.top
+                ? item.top + 'px'
+                : (size as number) / 2 - Math.sin(angles) * radius - (size as number) / 2 + 'px'
         }
-
-        if(item.childrens){
-          // 递归
+        console.log(style)
+        const isSvg = item.childrens ? false : true
+        if(item.childrens){ // 递归
           return <MenuChild 
             key={item.iconName}
             iconSize={iconSize}
             iconName={item.iconName}
             style={style}
+            cb={childClick}
+            isSvg={isSvg}
           >{ RadialDataMap(item) }</MenuChild>
         } else {
           return <MenuChild 
-              key={item.iconName}
-              iconName={item.iconName}
-              iconSize={iconSize}
-              style={style}
-            ></MenuChild>
+            key={item.iconName}
+            iconName={item.iconName}
+            iconSize={iconSize}
+            style={style}
+            cb={childClick}
+            isSvg={isSvg}
+          ></MenuChild>
         }
       })
     }
   }
 
   const RadialDataMap = ( data: Child ) => {
+    
     if(data.childrens !== undefined && Array.isArray(data.childrens) && data.childrens.length !== 0){
       return (
-        <MenuParent iconName={data.iconName} iconSize={iconSize} size={size}>
+        <MenuParent 
+          iconName={data.iconName} 
+          iconSize={iconSize} 
+          size={size} 
+        >
           { RadialRecursion(data) }
         </MenuParent>
       )
@@ -89,9 +106,9 @@ const radialMenu: React.FC<RadialProps> = (props) => {
   return RadialDataMap(data)
 }
 
-radialMenu.defaultProps = {
+RadialMenu.defaultProps = {
   size: 50,
   iconSize: 15
 }
 
-export default radialMenu
+export default RadialMenu

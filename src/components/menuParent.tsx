@@ -1,45 +1,43 @@
-import React from "react"
+import React, { useState, Fragment, Children, cloneElement, ReactElement } from "react"
+import { IMenuItemStyle } from "./menuInterface"
+import Svg from "./Svg"
 import "./style.css"
 
 export interface parentProps {
   iconName?: string,
   iconSize?: number,
-  size?: number
+  size?: number,
+  style?: IMenuItemStyle
 }
 
-
-const menuParent:React.FC<parentProps> = (props) => {
+const MenuParent:React.FC<parentProps> = (props) => {
+  const [ open, setOpen ] = useState(false)
   const { 
     iconName,
     iconSize,
     children,
-    size
+    size,
   } = props
-
-  const styles = {
-    width: size + 'px',
-    height: size + 'px'
+  
+  const perentClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpen(!open)
   }
-
-  const getSvg = () => {
-    return (
-      <svg 
-        aria-hidden="true"
-        width={iconSize} 
-        height={iconSize}
-      >
-        <use xlinkHref={'#icon-' + iconName}></use>
-      </svg>
-    )
+  const setChild = () => {
+    if(open) return <Fragment>{ children }</Fragment>
   }
   return (
-    <div className="menu-parent" style={styles}>
-      { 
-        iconName ? getSvg() : "?"
-      }
-      { children }
+    <div className="menu-parent" style={{ width: size + 'px', height: size + 'px' }} onClick={perentClick}>
+      <Svg iconSize={iconSize} iconName={iconName}></Svg>
+      {/* { setChild() } */}
+      { Children.map(props.children, child => {
+        console.log(child);
+        return cloneElement(child as ReactElement, {
+          open: open
+        })
+      }) }
     </div>
   )
 }
 
-export default menuParent
+export default MenuParent

@@ -1,47 +1,60 @@
-import React from "react"
+import 
+  React, 
+  { 
+    Fragment, 
+    useState, 
+    useEffect
+  } from "react"
+import { IMenuItemStyle } from "./menuInterface"
+import Svg from "./Svg"
 import "./style.css"
 
-export interface IChildStyle {
-  top?: string,
-  left?: string
-}
+type callback = ( item: string ) => any
 
 export interface childProps {
   iconName?: string,
   size?: number,
   iconSize?: number,
-  style?: IChildStyle
+  style?: IMenuItemStyle,
+  cb?: callback,
+  isSvg: boolean,
+  open?: boolean
 }
 
-const menuChild:React.FC<childProps> = (props) => {
-
+const MenuChild:React.FC<childProps> = (props) => {
   const {
     children,
     iconName,
     iconSize,
-    style
+    style = {},
+    cb = () => {},
+    isSvg,
+    open
   } = props
-
-  const getSvg = () => {
-    return (
-      <svg 
-        aria-hidden="true"
-        width={iconSize} 
-        height={iconSize}
-      >
-        <use xlinkHref={'#icon-' + iconName}></use>
-      </svg>
-    )
+  const obj:React.CSSProperties = {
+    left: "0px",
+    top: "0px",
+    visibility: "hidden"
   }
+  const [styles, setStyles] = useState(obj)
+  
+  useEffect(() => {
+    open ? setStyles(style) : setStyles(obj)
+  }, [open])
+  
+  const childClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    cb((iconName as string))
+  }
+  
+  const setSvg = () => { if(isSvg) return <Svg iconSize={iconSize} iconName={iconName}></Svg> }
 
   return (
-    <div className="menu-child" style={style}>
-      { 
-        iconName ? getSvg() : "?"
-      }
-      { children }
+    <div className="menu-child" style={styles} onClick={childClick}>
+      { setSvg() }
+      <Fragment>{ children }</Fragment>
     </div>
   )
 }
 
-export default menuChild
+export default MenuChild

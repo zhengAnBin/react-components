@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import * as serviceWorker from './serviceWorker'
 import RadialMenu from "./components/radialMenu"
 
-const size = 50
 const iconSize = 20
+const size = 50
 
 const radialData = {
   startPoistion: 30,
@@ -12,13 +12,20 @@ const radialData = {
   radius: 100,
   childrens: [
     {
-      iconName: "complete",
+      iconName: "complete"
     },
     {
-      iconName: "scenario",
+      iconName: "scenario"
     },
-    {
-      iconName: "notice"
+    { 
+      startPoistion: 80,
+      angleExtent: 80,
+      radius: 100,
+      iconName: "notice",
+      childrens: [
+        { iconName: "complete" },
+        { iconName: "scenario" }
+      ]
     }
   ]
 }
