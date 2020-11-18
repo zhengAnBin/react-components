@@ -15,10 +15,11 @@ interface Child extends Parent {
   iconName?: string
 }
 
-interface RadialProps {
+export interface RadialProps {
   data: Parent,
   size?: number,
-  iconSize?: number
+  iconSize?: number,
+  callback?: (item: string) => any
 }
 
 const RadialMenu: React.FC<RadialProps> = (props) => {
@@ -26,10 +27,13 @@ const RadialMenu: React.FC<RadialProps> = (props) => {
   const {
     data,
     size,
-    iconSize
+    iconSize,
+    callback
   } = props
-  const childClick = (item:string) => {
-    console.log(item)
+  const childClick = (item: string) => {
+    if(typeof(callback) === 'function'){
+      callback(item)
+    }
   }
   const RadialRecursion = ( data: Child ): ReactNode => {
 
@@ -61,23 +65,23 @@ const RadialMenu: React.FC<RadialProps> = (props) => {
                 ? item.top + 'px'
                 : (size as number) / 2 - Math.sin(angles) * radius - (size as number) / 2 + 'px'
         }
-        console.log(style)
+
         const isSvg = item.childrens ? false : true
         if(item.childrens){ // 递归
           return <MenuChild 
             key={item.iconName}
             iconSize={iconSize}
             iconName={item.iconName}
-            style={style}
             cb={childClick}
             isSvg={isSvg}
+            style={style}
           >{ RadialDataMap(item) }</MenuChild>
         } else {
           return <MenuChild 
+            style={style}
             key={item.iconName}
             iconName={item.iconName}
             iconSize={iconSize}
-            style={style}
             cb={childClick}
             isSvg={isSvg}
           ></MenuChild>

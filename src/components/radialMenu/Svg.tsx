@@ -1,6 +1,6 @@
 import React from "react"
 
-interface ISvgProps {
+export interface ISvgProps {
   iconName?: string
   iconSize?: number
 }
@@ -12,6 +12,7 @@ const Svg:React.FC<ISvgProps> = (props) => {
   } = props
   return (
     <svg 
+      data-testid="test-svg"
       aria-hidden="true"
       width={iconSize} 
       height={iconSize}
@@ -19,6 +20,11 @@ const Svg:React.FC<ISvgProps> = (props) => {
       <use xlinkHref={'#icon-' + iconName}></use>
     </svg>
   )
+}
+
+Svg.defaultProps = {
+  iconName: "close",
+  iconSize: 16
 }
 
 export default Svg

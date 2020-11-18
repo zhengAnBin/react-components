@@ -1,0 +1,16 @@
+.action{
+  text-align: center;
+  overflow: hidden;
+  background-color: black;
+  color: #FFFFFF;
+  cursor: pointer;
+  user-select: none;
+}
+
+.action-round {
+  border-radius: 50%;
+}
+
+.action-close {
+  transform: rotate(90deg);
+}

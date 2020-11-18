@@ -18,7 +18,7 @@ export interface childProps {
   style?: IMenuItemStyle,
   cb?: callback,
   isSvg: boolean,
-  open?: boolean
+  open?: boolean,
 }
 
 const MenuChild:React.FC<childProps> = (props) => {
@@ -29,11 +29,16 @@ const MenuChild:React.FC<childProps> = (props) => {
     style = {},
     cb = () => {},
     isSvg,
-    open
+    open,
+    size
   } = props
+
   const obj:React.CSSProperties = {
-    left: "0px",
-    top: "0px",
+    width: (size as number) + 'px',
+    height: (size as number) + 'px',
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
     visibility: "hidden"
   }
   const [styles, setStyles] = useState(obj)

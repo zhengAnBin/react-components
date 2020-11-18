@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import * as serviceWorker from './serviceWorker'
-import RadialMenu from "./components/radialMenu"
+import RadialMenu from "./components/radialMenu/radialMenu"
 
 const iconSize = 20
 const size = 50
@@ -11,12 +11,8 @@ const radialData = {
   angleExtent: 100,
   radius: 100,
   childrens: [
-    {
-      iconName: "complete"
-    },
-    {
-      iconName: "scenario"
-    },
+    { iconName: "complete" },
+    { iconName: "scenario" },
     { 
       startPoistion: 80,
       angleExtent: 80,
@@ -29,7 +25,9 @@ const radialData = {
     }
   ]
 }
-
+const a = (type:string) => {
+  console.log(type)
+}
 ReactDOM.render(
   <React.StrictMode>
     <div 
@@ -41,7 +39,12 @@ ReactDOM.render(
         height: "100vh" 
       }}
     >
-      <RadialMenu data={radialData} size={size} iconSize={iconSize}></RadialMenu>
+      <RadialMenu 
+        data={radialData} 
+        size={size} 
+        iconSize={iconSize}
+        callback={a}
+      ></RadialMenu>
     </div>
   </React.StrictMode>,
   document.getElementById('root')
